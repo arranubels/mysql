@@ -46,11 +46,11 @@ if [ "$1" = 'mysqld' ]; then
 		
 		echo 'FLUSH PRIVILEGES ;' >> "$tempSqlFile"
 		
-		set -- "$@" --init-file="$tempSqlFile"
-	fi
+	  if [ "$MYSQL_IMPORT" ]; then
+	  	echo "SOURCE $MYSQL_IMPORT;" >> "$tempSqlFile"
+	  fi
 	
-	if [ "$MYSQL_IMPORT" ]; then
-		echo "SOURCE \"$MYSQL_IMPORT\";" >> "$tempSqlFile"
+		set -- "$@" --init-file="$tempSqlFile"
 	fi
 	
 	chown -R mysql:mysql "$DATADIR"

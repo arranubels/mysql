@@ -43,13 +43,13 @@ if [ "$1" = 'mysqld' ]; then
 				echo "GRANT ALL ON \`$MYSQL_DATABASE\`.* TO '$MYSQL_USER'@'%' ;" >> "$tempSqlFile"
 			fi
 		fi
-		if [ "$MYSQL_IMPORT" ]; then
-			echo "SOURCE \"$MYSQL_IMPORT\";" >> "$tempSqlFile"
-		fi
-		
 
 		echo 'FLUSH PRIVILEGES ;' >> "$tempSqlFile"
 		
+		if [ "$MYSQL_IMPORT" ]; then
+			echo "SOURCE $MYSQL_IMPORT;" >> "$tempSqlFile"
+		fi
+
 		set -- "$@" --init-file="$tempSqlFile"
 	fi
 	
